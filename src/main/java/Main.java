@@ -32,8 +32,9 @@ public class Main {
             @Override
             public void run() {
                 Call call;
-                while(ats.getCallsSize() > 0) {
+                while(true) {
                     call = ats.getCall();
+                    if(call == null) break;
                     try {
                         Thread.sleep(TIME_CALL_PROC);
                     } catch (InterruptedException e) {
@@ -45,6 +46,7 @@ public class Main {
         };
         // поток АТС
         new Thread(null, callsGenerator, "ATS").start();
+        Thread.sleep(1000);
         // потоки операторов
         for(int i = 1; i <= CNT_OPERATORS; i++) {
             new Thread(null, processCalls, "operator"+i).start();
